@@ -1,8 +1,8 @@
-from lxml import html
 from bs4 import BeautifulSoup as soup
-import requests, os, sys, art
+import requests, sys
 import re as reg
-from utils import cprint, savename, log
+from proxychecker import proxy_check
+from utils import cprint, savename, log, delDup
 """
 1. Abfrage wie viele Seiten er scrapen soll
 2. die in einen Array packen damit wir einen For Loop für Requests machen können.
@@ -12,26 +12,17 @@ from utils import cprint, savename, log
 6. Öffne eine Datei schreibe die URL die gerade gelesen wird rein und den Inhalt der Seite!
 """
 
-def delDup(clist: list):
-    clist = list(dict.fromkeys(clist))
-    return clist
-        
+def proxy():
+    cprint("[LC] Do you want to check the proxies?[y/N] ", "green")
+    ans = input("")
+    if ans == "Y" or ans == "y":
+        with open(savename("proxies", "txt", -1), "r") as f:
+            plist = f.readlines()
+            f.close()
+        proxy_check(plist)
+    else:
+        pass
 
-""" def savename(file: str):
-    i = 1
-    if file == "combo":
-        while os.path.isfile(f"Combos{i}.txt"):
-            i += 1
-        return f"Combos{i}.txt"
-    elif file == "proxy":
-        while os.path.isfile(f"Proxies{i}.txt"):
-            i += 1
-        return f"Proxies{i}.txt"
-    elif file == "userpass":
-        while os.path.isfile(f"User_Pass Combos{i}.txt"):
-            i += 1
-        return f"User_Pass Combos{i}.txt" """
-        
 def main():
     cprint("""
 
@@ -69,7 +60,7 @@ def main():
         pagelist = f"https://pastehub.net/recent.php?p={i}"
         urls.append(pagelist) 
         for url in urls: # for loop für die URLs
-            cprint(f"{url}\n\n", "blue", "black")
+            cprint(f"{url}\n\n", "blue")
             page = requests.get(url)
             jesus = soup(page.content, 'html.parser')
             for i in jesus.find_all('a', class_="link", href=True):
@@ -129,4 +120,6 @@ def main():
         for userpw in delDup(usercombos):
             userpw = str(userpw).replace("\r", "")
             k.write(f"{userpw}\n")
+
 main()
+proxy()
