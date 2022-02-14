@@ -1,0 +1,3 @@
+rm ./*.txt
+
+echo Cleaned!
