@@ -1,11 +1,23 @@
 import sys, os
 
-def savename(file: str, suffix: str):
+def delDup(clist: list):
+    clist = list(dict.fromkeys(clist))
+    return clist
+
+def listRemoveNewLines(list: list[str]):
+    new = []
+    for stuff in list:
+        stuff = stuff.replace("\n", "")
+        new.append(stuff)
+
+    return new
+
+def savename(file: str, suffix: str, shift: int = 0):
     i = 1
     while os.path.isfile(f"{file}{i}.{suffix}"):
         i += 1
     
-    return f"{file}{i}.{suffix}"
+    return f"{file}{i+shift}.{suffix}"
 
 def log(output: any = "", init: bool = False):
     if init == True:
@@ -17,15 +29,18 @@ def log(output: any = "", init: bool = False):
             f.write(f"{str(output)}\n\n")
             f.close()
 
-def cprint(text: str, color: str, bg_color: str = None, extra: str = None):
-    extras = {
-    'reset' : '\033[0m',
+def cprint(text: str, color: str, bg_color: str = None, pre: str = None, post: str = None):
+    pres = {
     'bold' : '\033[01m',
     'disable' : '\033[02m',
     'underline' : '\033[04m',
     'reverse' : '\033[07m',
     'strikethrough' : '\033[09m',
     'invisible' : '\033[08m',
+    }
+
+    posts = {
+    'reset' : '\033[0m',
     }
 
     colors = {
@@ -61,19 +76,28 @@ def cprint(text: str, color: str, bg_color: str = None, extra: str = None):
         out = ""
         if bg_color != None:
             out += bgcolors.get(f"bg_{bg_color}")
-    except Exception as e:
+    except Exception:
         sys.stdout.write(f"cprint: {bg_color} is not a valid background color!\n")
         sys.exit()
     
     try:
-        if extra != None:
-            out += extras.get(extra)
+        if pre != None:
+            out += pres.get(pre)
     except Exception:
-        sys.stdout.write(f"cprint: {extra} is no valid extra\n")
+        sys.stdout.write(f"cprint: {pre} is no valid pre\n")
         sys.exit()
 
     try:
-        out += colors.get(color) + text + extras.get("reset")
+        out += colors.get(color) + text
+
+        try:
+            if post != None:
+                out += posts.get(post)
+        except Exception:
+            sys.stdout.write(f"cprint: {post} is no valid post\n")
+            sys.exit()
+
+        out += posts.get("reset")
         sys.stdout.write(out)
     except Exception:
         sys.stdout.write(f"cprint: {color} is no valid color!")
