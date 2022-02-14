@@ -1,4 +1,3 @@
-from importlib.resources import path
 import requests, os, sys
 from utils import cprint, listRemoveNewLines, log, savename
 
