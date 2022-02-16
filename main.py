@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup as soup
 import requests, sys
 import re as reg
-from proxychecker import proxy_check
+from proxychecker import proxycheck
 from utils import cprint, savename, log, delDup
 """
 1. Abfrage wie viele Seiten er scrapen soll
@@ -16,10 +16,19 @@ def proxy():
     cprint("[LC] Do you want to check the proxies?[y/N] ", "green")
     ans = input("")
     if ans == "Y" or ans == "y":
+        cprint("[LC] How many threads? ", "green")
+        try:
+            threads = int(input(""))
+        except Exception:
+            print("stopllolol")
+            threads = 1
         with open(savename("proxies", "txt", -1), "r") as f:
             plist = f.readlines()
             f.close()
-        proxy_check(plist)
+        
+        p = proxycheck(proxy_list=plist, threads=threads)
+        p.init_check()
+
     else:
         pass
 
