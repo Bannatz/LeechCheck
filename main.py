@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup as soup
 import requests, sys
 import re as reg
 from proxychecker import proxycheck
+from ComboChecker import checker
 from utils import cprint, savename, log, delDup
 """
 1. Abfrage wie viele Seiten er scrapen soll
@@ -11,6 +12,18 @@ from utils import cprint, savename, log, delDup
 5. For loop nach der "textarea"/Alles was in dem Paste drinne steht
 6. Öffne eine Datei schreibe die URL die gerade gelesen wird rein und den Inhalt der Seite!
 """
+
+def combos():
+    cprint("[LC] Do you want to check the accounts? [y/N] ", "green")
+    ans = input()
+    if ans == "Y" or ans == "y":
+        with open(savename("combos", "txt", -1), "r") as f:
+            clist = f.readlines()
+            f.close()
+        checker(clist)
+    else:
+        pass
+        
 
 def proxy():
     cprint("[LC] Do you want to check the proxies?[y/N] ", "green")
@@ -132,3 +145,4 @@ def main():
 
 main()
 proxy()
+combos()
