@@ -2,7 +2,7 @@
 Currently Outdated.
 Update is coming!
 
-**Featurues**:
+**Features**:
 - Pastehub Links Leeching
 - Proxychecker Multithreaded
 - Auto Save (Combos, Proxies (ex. Proxies1.txt, Combos1.txt))
