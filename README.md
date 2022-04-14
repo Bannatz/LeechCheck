@@ -2,6 +2,7 @@
 UPDATED!
 
 **Features**:
+- SearchResults.CC Scraping and Leeching
 - Pastehub Links Leeching
 - Proxychecker Multithreaded
 - Auto Save (Combos, Proxies (ex. Proxies1.txt, Combos1.txt))
