@@ -1,6 +1,5 @@
 # LeechCheck
-Currently Outdated.
-Update is coming!
+UPDATED!
 
 **Features**:
 - Pastehub Links Leeching
@@ -8,12 +7,11 @@ Update is coming!
 - Auto Save (Combos, Proxies (ex. Proxies1.txt, Combos1.txt))
 
 **What is Broken Currently ?**:
-- Leeching
-- Everything TwT
+- A little bug in Saving the File.
 
 **What comes with the New Update**:
-- SearchResults.CC Leecher
-- Everything fixed atleast the Leeching part
+- Bug Fixing if i have the time to do it
+- requirements.txt for easy install!
 
 **What is removed with the New Update**:
-- User:Pass Leeching
+- Comments and Code Clean Up
