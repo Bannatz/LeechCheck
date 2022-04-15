@@ -58,15 +58,14 @@ def main():
                     log(f"[URL: {url}]\n{check}")
                     pcheck = reg.findall(r"[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]{2,4}", str(f.text))
                     log(pcheck)
-                    #ucheck = reg.findall(r"^[a-zA-Z0-9](_(?!(\.|_))|\.(?!(_|\.))|[a-zA-Z0-9:]){1,}[a-zA-Z0-9]:.{1,}$", str(f.text)) # [a-zA-Z0-9] a-z groß und klein {1,} einmal bis unendlich [:] Doppelpunkt, . für jeden Character(!,\,$), {1,} eins bis ins unendliche
-#
-#log(ucheck)
+                    ucheck = reg.findall(r"([a-zA-Z0-9.]{1,})(?<!com):([a-zA-Z0-9]{1,}.[a-zA-Z0-9]{1,})", str(f.text)) # [a-zA-Z0-9] a-z groß und klein {1,} einmal bis unendlich [:] Doppelpunkt, . für jeden Character(!,\,$), {1,} eins bis ins unendliche
+                    log(ucheck)
                     cprint(f"Combos: {len(check)}\n", "green")
-                    #cprint(f"User:Pass Combos: {len(ucheck)}\n", "green")
+                    cprint(f"User:Pass Combos: {len(ucheck)}\n", "green")
                     cprint(f"Proxies: {len(pcheck)}\n\n", "green")
                     cz = len(check)
                     pz = len(pcheck)
-                    #uz = len(ucheck)
+                    uz = len(ucheck)
                     z = 0
                     for combo in check:
                         temp = str(combo).split(" ")
@@ -82,14 +81,15 @@ def main():
                         z += 1
                         if z == pz:
                             break
-                    #for ucombo in ucheck:
-                    #    temp = str(ucombo).split(" ")
-                    #    sys.stdout.write(f"Appending Proxy: {ucombo}\r")
-                    #    sys.stdout.write("\033[K")
-                    #    usercombos.append(ucombo)
-                    #    z += 1
-                    #    if z == pz:
-                    #        break
+                    for ucombo in ucheck:
+                        ucombo[1] = ucombo[1].trim()
+                        sys.stdout.write(f"Appending Proxy: {ucombo}\r")
+                        sys.stdout.write("\033[K")
+                        userpass = ucombo[0] + ":" + ucombo[1]
+                        usercombos.append(userpass)
+                        z += 1
+                        if z == pz:
+                            break
 
     with open(savename("combos", "txt"), "a") as k:
         for combo in delDup(combos):
@@ -101,10 +101,10 @@ def main():
             proxy = str(proxy).replace("\r", "")
             k.write(f"{proxy}\n")
         k.close()
-    #with open(savename("userpass", "txt"), "a") as k:
-    #    for userpw in delDup(usercombos):
-    #        userpw = str(userpw).replace("\r", "")
-    #        k.write(f"{userpw}\n")
+    with open(savename("userpass", "txt"), "a") as k:
+        for userpw in delDup(usercombos):
+            userpw = str(userpw).replace("\r", "")
+            k.write(f"{userpw}\n")
 
 
 def search():
@@ -113,6 +113,7 @@ def search():
     i = 0
     urls = []
     combos = []
+    ucombos = []
     proxies = []
     if keyword == "":
         print("Please specify a keyword!")
@@ -154,7 +155,13 @@ def search():
         pagename = jesus.find("h6")
         for f in jesus.find_all('textarea'):
             check = reg.findall(r".{1,}[@].{1,}\.[a-z]{1,}[:].{1,}", str(f.text))
-            for combo in check:
+            ucheck = reg.findall(r"([a-zA-Z0-9.]{1,})(?<!com):([a-zA-Z0-9]{1,}.[a-zA-Z0-9]{1,})", str(f.text))
+        for upass in ucheck:
+            userpasscmb = upass[0] + ":" + upass[1]+ "\n"
+            sys.stdout.write(f"Appending User:Pass Combo: {upass}\r")
+            sys.stdout.write("\033[K")
+            ucombos.append(str(userpasscmb))
+        for combo in check:
                 temp = str(combo).split(" ")
                 combo = temp[0]
                 sys.stdout.write(f"Appending Combo: {combo}\r")
@@ -164,7 +171,13 @@ def search():
         for combo in delDup(combos):
             combo = str(combo).replace("\r", "")
             f.write(f"{combo}\n")
+        if ucombos != None:
+            with open(savename(f"UserPass:{keyword}", "txt"), "a") as k:
+                for upass in delDup(ucombos):
+                    upass = str(upass).replace("\r", "")
+                    k.write(upass)
         f.close()
+    
 def menu():
     cprint("""
 
