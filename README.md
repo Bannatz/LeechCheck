@@ -18,8 +18,13 @@ UPDATED!
 - Comments and Code Clean Up
 
 **How to use the Installer ?**:
+**Unix**:
 - chmod +x ./install.sh
 - ./install.sh
+**Windows**:
+- Open CMD/Powershell/Windows Terminal
+- cd (where the Folder is Located)
+- pip install -r requirements.txt
 
 **How to use this Tool**:
 
