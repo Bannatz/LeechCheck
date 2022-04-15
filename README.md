@@ -17,11 +17,11 @@ UPDATED!
 **What is removed with the New Update**:
 - Comments and Code Clean Up
 
-**How to use the Installer ?**:
-**Unix**:
+**How to Install (UNIX)**:
 - chmod +x ./install.sh
 - ./install.sh
-**Windows**:
+
+**How to Install (Windows)**:
 - Open CMD/Powershell/Windows Terminal
 - cd (where the Folder is Located)
 - pip install -r requirements.txt
