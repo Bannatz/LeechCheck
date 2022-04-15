@@ -13,7 +13,7 @@ UPDATED!
 
 **What comes with the New Update**:
 - Bug Fixing if i have the time to do it
-- 
+
 **What is removed with the New Update**:
 - Comments and Code Clean Up
 
