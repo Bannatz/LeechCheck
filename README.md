@@ -20,3 +20,7 @@ UPDATED!
 **How to use the Installer ?**:
 - chmod +x ./install.sh
 - ./install.sh
+
+**How to use this Tool**:
+https://user-images.githubusercontent.com/68560010/163578676-46667da6-41dd-4978-8fac-d457e08c9b9b.mp4
+
