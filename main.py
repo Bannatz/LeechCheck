@@ -172,7 +172,7 @@ def search():
             combo = str(combo).replace("\r", "")
             f.write(f"{combo}\n")
         if ucombos != None:
-            with open(savename(f"UserPass:{keyword}", "txt"), "a") as k:
+            with open(savename(f"UserPass_{keyword}", "txt"), "a") as k:
                 for upass in delDup(ucombos):
                     upass = str(upass).replace("\r", "")
                     k.write(upass)
