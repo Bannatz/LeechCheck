@@ -82,7 +82,7 @@ def main():
                         if z == pz:
                             break
                     for ucombo in ucheck:
-                        ucombo[1] = ucombo[1].trim()
+                        ucombo = ucombo[0] + ":" + ucombo[1]+ "\n"
                         sys.stdout.write(f"Appending Proxy: {ucombo}\r")
                         sys.stdout.write("\033[K")
                         userpass = ucombo[0] + ":" + ucombo[1]
