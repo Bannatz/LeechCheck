@@ -24,7 +24,7 @@ UPDATED!
 **How to Install (Windows)**:
 - Open CMD/Powershell/Windows Terminal
 - cd (where the Folder is Located)
-- pip install -r requirements.txt
+- python -m pip install -r requirements.txt
 
 **How to use this Tool**:
 
