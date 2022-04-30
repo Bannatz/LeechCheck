@@ -1,9 +1,8 @@
-import requests, os, sys, time
-from utils import cprint, listRemoveNewLines, log, savename
+import requests, os, sys
+from utils import cprint, listRemoveNewLines, listToFile, saveName
 from concurrent.futures import ThreadPoolExecutor
 
 class proxycheck:
-
     def __init__(self, proxy_list: list, threads: int) -> None:
         self.plist = listRemoveNewLines(proxy_list)
         self.threads = threads
@@ -12,30 +11,27 @@ class proxycheck:
         self.counter = 1
         
     def save_working(self):
-        if os.path.isdir("proxies") is False:
-            os.mkdir("proxies")
-        with open(savename("proxies/working", "txt"), "a") as f:
-            for proxy in self.working:
-                f.write(f"{proxy}\n")
-            f.close()
+        if os.path.isdir("checked_proxies") is False:
+            os.mkdir("checked_proxies")
+        listToFile("checked_proxies/checked_proxies", self.working)
 
     def proxy_check(self, proxy: str):
-        p = {"https" : proxy}
         try:
-            r = requests.get(url="https://example.com", proxies=p, timeout=10)
-            log(f"[WORKING] {proxy}")
-            r.close()
-            self.working.append(proxy)
-        except Exception:
-            log(f"[NOT WORKING] {proxy}")
+            try:
+                res = requests.get(url="https://example.com", proxies={"https" : proxy}, timeout=10)
+                res.close()
+                self.working.append(proxy)
+            except Exception:
+                pass
 
-        self.counter += 1 
-        cprint(f" {proxy}\t[{self.counter}/{self.len}]\r", "green")
-        sys.stdout.write("\033[K")
+            self.counter += 1
+            sys.stdout.write("\033[K")
+            cprint(f" {proxy}\t[{self.counter}/{self.len}]\t{len(self.working)} working\r", "green")
+        except KeyboardInterrupt:
+            self.save_working()
+            exit()
 
     def init_check(self):
-        log(f"plist: \n{self.plist}\n---------")
-        log(f"Threads {self.threads}")
         with ThreadPoolExecutor(self.threads) as x:
             x.map(self.proxy_check,self.plist)
 

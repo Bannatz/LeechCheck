@@ -1,3 +1,2 @@
-#!/bin/bash
-
-pip install -r requirements.txt
+#!/bin/sh
+python3 -m pip install -r ./requirements
