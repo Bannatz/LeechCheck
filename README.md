@@ -26,7 +26,7 @@ UPDATED! 30.04.2022
 **How to install (Windows)**:
 - Ensure Python3 and pip are installed and up to date
 - Open the folder containing the main.py (```cd``` is to complex for windows monke brain)
-- Sheft + Right-Click and select "Open in Windows Terminal" or "Open PowerShell window here"
+- Shift + Right-Click and select "Open in Windows Terminal" or "Open PowerShell window here"
 - ```python3 -m pip install -r .\requirements```
 
 **How to use this tool (old)**:
