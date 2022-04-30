@@ -62,7 +62,6 @@ def main():
     print(f"\n>> Finished <<\nCombos: {len(combos)}\nProxies: {len(proxies)}\n")
 
 
-# TODO: cleanup this mess
 def search():
     keyword = input("Enter Keyword(example: Minecraft Combos): ").lower().replace(" ", "+").strip()
     if keyword == "":
