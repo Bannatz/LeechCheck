@@ -2,28 +2,36 @@ from bs4 import BeautifulSoup as soup
 import cloudscraper
 import re as reg
 from proxychecker import proxycheck
+from checker import Checker
 from os import mkdir, path
-from utils import cprint, listToFile, saveName, delDup
+from utils import cprint, listToFile, delDup
 
+def check_combos(clist: list, plist: list):
+    # cprint("Do you want to check the combos (with the checked proxies ofc)?[y/N]")
+    check = Checker(clist, plist)
+    # ans = input("")
+    # if ans == "Y" or ans == "y":
+    #    pass
+    check.crchecker()
+    check.close_session()
 
-def proxy():
-    cprint("[LC] Do you want to check the proxies?[y/N] ", "green")
+def check_proxies(plist : list) -> list:
+    cprint("Do you want to check the proxies?[y/N] ", "green")
     ans = input("")
     if ans == "Y" or ans == "y":
-        cprint("[LC] How many threads? ", "green")
+        cprint("How many threads? ", "green")
         try:
             threads = int(input(""))
         except Exception:
             threads = 1
-        with open(saveName("proxies/proxies", "txt", -1), "r") as f:
-            plist = f.readlines()
         
         p = proxycheck(proxy_list=plist, threads=threads)
-        p.init_check()
+        checked_plist = p.init_check()
+        return checked_plist
     else:
         pass
 
-def main():
+def main() -> tuple:
     try:
         s = int(input("How many sites: ")) + 1
     except Exception:
@@ -61,6 +69,8 @@ def main():
 
     print(f"\n>> Finished <<\nCombos: {len(combos)}\nProxies: {len(proxies)}\n")
 
+    return (combos, proxies)
+
 
 def search():
     keyword = input("Enter Keyword(example: Minecraft Combos): ").lower().replace(" ", "+").strip()
@@ -88,9 +98,10 @@ def search():
         check = delDup([str(x).split(" ")[0].replace("\r", "") for x in check])
 
         listToFile(f"keyword/{keyword}", check)
-    
-def menu():
-    cprint("""
+
+
+
+cprint("""
 .____                        .__    _________ .__                   __                
 |    |    ____   ____   ____ |  |__ \_   ___ \|  |__   ____   ____ |  | __            
 |    |  _/ __ \_/ __ \_/ ___\|  |  \/    \  \/|  |  \_/ __ \_/ ___\|  |/ /            
@@ -105,14 +116,20 @@ __________                  __           ___ ___      ___.                      
                 \/     \/            \/       \/           \/  \/      \/     \/      
 
 """, 'green')
-    print("Welcome to LeechCheck!\n[1] Leech Recent Combos\n[2] Search Combos for Specific Keyword")
-    s = int(input("> "))
-    if s == 1:
-        main()
-    elif s == 2:
-        search()
-    else:
-        pass
+print("""\
+Welcome to LeechCheck!
+
+[1] Leech Recent Combos + Proxies
+[2] Search Combos for Specific Keyword + Proxyscrape Proxies
+""")
+
+s = int(input("> "))
+if s == 1:
+    cup_list = main()
+elif s == 2:
+    search()
+else:
+    pass
 
 if __name__ == "__main__":
     if(path.isdir("./combos") is False): 
@@ -124,5 +141,5 @@ if __name__ == "__main__":
     if(path.isdir("./keyword") is False):
         mkdir("./keyword")
 
-    menu()
-    proxy()
+    plist = check_proxies(cup_list[1])
+    check_combos(cup_list[0], plist)

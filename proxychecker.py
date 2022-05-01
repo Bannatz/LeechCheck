@@ -1,5 +1,5 @@
 import requests, os, sys
-from utils import cprint, listRemoveNewLines, listToFile, saveName
+from utils import cprint, listRemoveNewLines, listToFile
 from concurrent.futures import ThreadPoolExecutor
 
 class proxycheck:
@@ -31,8 +31,9 @@ class proxycheck:
             self.save_working()
             exit()
 
-    def init_check(self):
+    def init_check(self) -> list:
         with ThreadPoolExecutor(self.threads) as x:
             x.map(self.proxy_check,self.plist)
 
         self.save_working()
+        return self.working
