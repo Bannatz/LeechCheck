@@ -17,7 +17,7 @@ def saveName(file: str, suffix: str, shift: int = 0):
     return f"{file}{i+shift}.{suffix}"
 
 def listToFile(save_path: str, alist: list):
-    with open(saveName(save_path, "txt"), "a") as k:
+    with open(saveName(save_path, "txt"), "a", encoding="utf-8") as k:
         for item in alist:
             k.write(f"{item}\n")
 
